@@ -51,7 +51,7 @@ const optionsNodeSite = {
 client = mqtt.connect("mqtt://192.168.1.164", connectionOptions);
 //client = mqtt.connect("mqtt://192.168.1.164", socket);
 
-//mqtt.Client('a', options);
+
 
 app.use(cors());
 app.use(bodyParser.json());

@@ -2,6 +2,7 @@ const mqtt = require("mqtt");
 var express = require("express");
 const influx = require("influx");
 const fs = require("fs");
+let client;
 
 const connectionOptions = {
   port: 8883,
@@ -28,7 +29,7 @@ const influxconn = new influx.InfluxDB({
 
 const app = express();
 const utility = require("./api/utility");
-var client;
+
 
 client=mqtt.connect(connectionOptions);
 

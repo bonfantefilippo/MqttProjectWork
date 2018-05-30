@@ -5,14 +5,18 @@ const tls = require("tls");
 const app = express();
 const bodyParser = require("body-parser");
 const fs = require("fs");
+app.use(cors());
+app.use(bodyParser.json());
 
-var client;
 
 const connectionOptions = {
-  protocolId: "MQTT",
+  port: 8883,
+  protocol: "mqtts",
   protocolVersion: 4,
   username: "pippo",
   password: "secret",
+  ca: [fs.readFileSync("../Broker_SYMulator/key/ryans-cert.pem")],
+  rejectUnauthorized: false,
   clientId:
     "pub_" +
     Math.random()
@@ -20,41 +24,11 @@ const connectionOptions = {
       .substr(2, 8)
 };
 
-var optionForTLS = {
-  host: "127.0.0.1",
-  port: 8443,
-  rejectUnauthorized: false
-};
 
-const optionsNodeSite = {
-  ca: [fs.readFileSync("../Broker_SYMulator/key/ryans-cert.pem")],
-  rejectUnauthorized: false
-};
 
-//const socket = tls.connect(1883, optionForTLS);
-/*const socket = tls.connect(8443, optionsNodeSite, () => {
-  console.log(
-    "client connected",
-    socket.authorized ? "authorized" : "unauthorized"
-  );
-  process.stdin.pipe(socket);
-  process.stdin.resume();
-});
-        socket.setEncoding("utf8");
-    socket.on("data", data => {
-        console.log(data);
-        });
-    socket.on("end", () => {
-  server.close();
-});*/
+var client = mqtt.connect(connectionOptions)
 
-client = mqtt.connect("mqtt://192.168.1.164", connectionOptions);
-//client = mqtt.connect("mqtt://192.168.1.164", socket);
 
-//mqtt.Client('a', options);
-
-app.use(cors());
-app.use(bodyParser.json());
 
 client.on("connect", function() {
   app.post("/api/datalog", (req, res) => {

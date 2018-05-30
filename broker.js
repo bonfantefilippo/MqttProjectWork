@@ -5,19 +5,15 @@ var SECURE_CERT = __dirname + '/key/ryans-cert.pem';
 
 var settings = {
   port: 1883,
-  protocolId: 'MQTT',
- /* logger: {
-    name: "secureExample", 
-    level: 40
-  },
+  protocol: "mqtts",
   secure: {
-    port: 8443,
+    port: 8883,
     keyPath: SECURE_KEY,
     certPath: SECURE_CERT
-  }*/
+  }
 };
 
-/*
+
 var authenticate = (client, username, pwd, callback) => {
   var authorized = username === "pippo" && pwd.toString() === "secret";
   if (authorized) client.user = username;
@@ -30,13 +26,14 @@ var myAuthentication = (client, topic, payload, callback) => {
 var authorizeSubscribe = function(client, topic, callback) {
   //console.log(topic);
   callback(null, client.user == topic.split("/")[1]);
-};*/
+};
 
 var server = new mosca.Server(settings);
 
-server.on("ready", () => {
+/*server.on("ready", () => {
   console.log('Broker attivo in tls')
-});
+});*/
+server.on("ready", setup);
 
 
 server.on('clientConnected', function(client) {
@@ -48,10 +45,10 @@ server.on('published', function(packet, client) {
  // console.log('Messaggio inviato topic', packet.topic);
 });
 
-/*
+
 function setup() {
   server.authenticate = authenticate;
   server.authorizePublish = myAuthentication;
   server.authorizeSubscribe = authorizeSubscribe;
-	console.log('Broker attivo; In attesa di sottoscrizioni.')
-}*/
+	console.log('Broker attivo on TLS; In attesa di sottoscrizioni.')
+}

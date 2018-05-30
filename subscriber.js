@@ -1,14 +1,23 @@
 const mqtt = require("mqtt");
 var express = require("express");
 const influx = require("influx");
+const fs = require("fs");
 
-const connectionOptions= {
-  protocolId: 'MQTT',
+const connectionOptions = {
+  port: 8883,
+  protocol: "mqtts",
   protocolVersion: 4,
-  username: 'pippo',
-  password: 'secret',
-  clientId: 'pub_' + Math.random().toString(16).substr(2, 8)
-} 
+  username: "pippo",
+  password: "secret",
+  ca: [fs.readFileSync("../Broker_SYMulator/key/ryans-cert.pem")],
+  rejectUnauthorized: false,
+  clientId:
+    "sub_" +
+    Math.random()
+      .toString(16)
+      .substr(2, 8)
+};
+
 const influxconn = new influx.InfluxDB({
   host: "7tech.ddns.net",
   database: "prova",
@@ -21,7 +30,7 @@ const app = express();
 const utility = require("./api/utility");
 var client;
 
-client=mqtt.connect("mqtt://192.168.1.164");
+client=mqtt.connect(connectionOptions);
 
 
 client.on("connect", () => {

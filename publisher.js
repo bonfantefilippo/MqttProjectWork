@@ -7,15 +7,16 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 app.use(cors());
 app.use(bodyParser.json());
-
+var obj;
 
 const connectionOptions = {
   port: 8883,
   protocol: "mqtts",
+  clean: false,
   protocolVersion: 4,
   username: "pippo",
   password: "secret",
-  ca: [fs.readFileSync("../Broker_SYMulator/key/ryans-cert.pem")],
+  //ca: [fs.readFileSync("../Broker_SYMulator/key/ryans-cert.pem")],
   rejectUnauthorized: false,
   clientId:
     "pub_" +
@@ -38,5 +39,6 @@ client.on("connect", function() {
     res.json({ result: "ok" });
   });
 });
+
 
 app.listen(5001, () => console.log("In ascolto sulla porta 5001"));

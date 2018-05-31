@@ -2,6 +2,7 @@ const mqtt = require("mqtt");
 var express = require("express");
 const influx = require("influx");
 const fs = require("fs");
+const cors = require("cors");
 let client;
 
 const connectionOptions = {
@@ -10,7 +11,7 @@ const connectionOptions = {
   protocolVersion: 4,
   username: "pippo",
   password: "secret",
-  ca: [fs.readFileSync("../Broker_SYMulator/key/ryans-cert.pem")],
+  // ca: [fs.readFileSync("../Broker_SYMulator/key/ryans-cert.pem")],
   rejectUnauthorized: false,
   clientId:
     "sub_" +
@@ -27,7 +28,6 @@ const influxconn = new influx.InfluxDB({
   password: "user1"
 });
 
-const app = express();
 const utility = require("./api/utility");
 
 
@@ -36,7 +36,9 @@ client=mqtt.connect(connectionOptions);
 
 client.on("connect", () => {
   client.subscribe("sensori");
+  console.log('Subscriber connesso al broker.')
 });
+
 
 client.on("message", (packet, message) => {
   console.log(packet)
@@ -62,8 +64,3 @@ client.on("message", (packet, message) => {
       });
   }
 });
-
-// message is Buffer
-
-//console.log(message.toString())
-//client.end()

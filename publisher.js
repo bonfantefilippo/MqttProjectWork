@@ -1,10 +1,8 @@
 const mqtt = require("mqtt");
 const express = require("express");
 const cors = require("cors");
-const tls = require("tls");
 const app = express();
 const bodyParser = require("body-parser");
-const fs = require("fs");
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
@@ -15,12 +13,10 @@ var obj;
 
 const connectionOptions = {
   port: 8883,
-  protocol: "mqtts",
-  clean: false,
+  protocol: "mqtts", //not mqtt because using tls
   protocolVersion: 4,
-  username: "pippo",
+  username: "admin",
   password: "secret",
-  //ca: [fs.readFileSync("../Broker_SYMulator/key/ryans-cert.pem")],
   rejectUnauthorized: false,
   clientId:
     "pub_" +

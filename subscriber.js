@@ -1,7 +1,6 @@
 const mqtt = require("mqtt");
-var express = require("express");
+const express = require("express");
 const influx = require("influx");
-const fs = require("fs");
 const cors = require("cors");
 let client;
 
@@ -9,9 +8,8 @@ const connectionOptions = {
   port: 8883,
   protocol: "mqtts",
   protocolVersion: 4,
-  username: "pippo",
+  username: "admin",
   password: "secret",
-  // ca: [fs.readFileSync("../Broker_SYMulator/key/ryans-cert.pem")],
   rejectUnauthorized: false,
   clientId:
     "sub_" +

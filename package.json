@@ -1,6 +1,6 @@
 {
-  "name": "Broker",
-  "description": "Prova Mosca Broker",
+  "name": "MQTTs project",
+  "description": "MQTTs service",
   "authors": "Filippo",
   "version": "1.0.0",
   "main": "pathToMain",
@@ -12,7 +12,8 @@
     "influx": "^5.0.7",
     "mosca": "^2.8.1",
     "nodemon": "^1.17.4",
-    "tls": "0.0.1"
+    "tls": "0.0.1",
+    "swagger-ui-express": "^3.0.9"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

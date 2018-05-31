@@ -5,6 +5,10 @@ const tls = require("tls");
 const app = express();
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cors());
 app.use(bodyParser.json());
 var obj;
@@ -36,7 +40,7 @@ client.on("connect", function() {
     console.log(req.body);
     client.publish("sensori", JSON.stringify(req.body));
     console.log("Sensori inviato");
-    res.json({ result: "ok" });
+    res.sendStatus(204)
   });
 });
 

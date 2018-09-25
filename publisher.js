@@ -19,10 +19,12 @@ const connectionOptions = {
   password: "secret",
   rejectUnauthorized: false,
   clientId:
+    "Sensori_Impianto"
+  /*clientId:
     "pub_" +
     Math.random()
       .toString(16)
-      .substr(2, 8)
+      .substr(2, 8)*/
 };
 
 
@@ -34,7 +36,7 @@ var client = mqtt.connect(connectionOptions)
 client.on("connect", function() {
   app.post("/api/datalog", (req, res) => {
     console.log(req.body);
-    client.publish("sensori", JSON.stringify(req.body));
+    client.publish("SYMulation/DataLogger/sensori", JSON.stringify(req.body)); //provare con QoS
     console.log("Sensori inviato");
     res.sendStatus(204)
   });

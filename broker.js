@@ -13,7 +13,6 @@ var settings = {
   }
 };
 
-//ciaone
 var authenticator = (client, username, pwd, callback) => {
   var authorized = username === "admin" && pwd.toString() === "secret";
   if (authorized) client.user = username;
@@ -30,10 +29,14 @@ server.on('clientConnected', function(client) {
   console.log('In connection with', client.id);
 });
 
+server.on('clientDisconnected', function(client) {
+  console.log(`The client: ${client.id} has been disconnected.` );
+  });
+
 
 
 server.on('subscribed', function(topic, client) {
-  console.log('Subscriber '+client.id+ ' has subscribed to topic ' + topic);
+  console.log('The subscriber '+client.id+ ' has subscribed the topic ' + topic);
  });
 
 

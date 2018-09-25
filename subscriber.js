@@ -11,11 +11,12 @@ const connectionOptions = {
   username: "admin",
   password: "secret",
   rejectUnauthorized: false,
-  clientId:
+ /* clientId:
     "sub_" +
     Math.random()
       .toString(16)
-      .substr(2, 8)
+      .substr(2, 8)*/
+  clientId: "InfluxDB"
 };
 
 const influxconn = new influx.InfluxDB({
@@ -33,8 +34,8 @@ client=mqtt.connect(connectionOptions);
 
 
 client.on("connect", () => {
-  client.subscribe("sensori");
-  console.log('Subscriber connesso al broker.')
+  client.subscribe("SYMulation/DataLogger/sensori");
+  console.log('InfluxDB Subscriber connected to Broker and is waiting for a message...')
 });
 
 

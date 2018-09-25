@@ -13,7 +13,7 @@ var settings = {
   }
 };
 
-
+//ciaone
 var authenticator = (client, username, pwd, callback) => {
   var authorized = username === "admin" && pwd.toString() === "secret";
   if (authorized) client.user = username;

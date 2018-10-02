@@ -11,6 +11,7 @@ var settings = {
     bundle: true,
     static: './'
   },
+  //
   secure: {
     port: 8883,
     keyPath: SECURE_KEY,

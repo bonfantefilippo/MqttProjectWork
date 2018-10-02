@@ -1,0 +1,97 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "7Tech API sensor",
+    "description": "This API can handle specific sensors data flow!",
+    "version": "1.2"
+  },
+  "produces": [
+    "application/json"
+  ],
+  "host": "localhost:5001",
+  "basePath": "/api",
+  "paths": {
+    "/datalog": {
+      "post": {
+        "operationId": "sensorWrite",
+        "tags": [
+          "HTTP Methods"
+        ],
+        "description": "Write the sensor measurements on InfluxDB",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "write",
+            "description": "This method take an array of measurements from the body request and write it into InfluxDB.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Measure"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The server has successfully fulfilled the request and there is no additional content to send in the response payload body"
+          },
+          "400": {
+            "description": "Error: Bad Request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Measure": {
+      "type":"array",
+      "items":{"$ref":"#definitions/measurement"}
+    },
+    "field": {
+      "properties": {
+        "fldName": {
+          "type": "string",
+          "example":"liqflow"
+        },
+        "value": {
+          "type": "integer",
+          "example":5
+        },
+        "timestamp":{
+          "type":"string",
+          "example":1526567775015
+        }
+      }
+},
+    "measurement": {
+      "properties":{
+      "measurement": {
+        "type": "string",
+        "example":"Vasca"
+      },
+      "fields": {
+        "type": "array",
+        "items":{"$ref":"#definitions/field"}
+      },
+      "tags": {
+        "type": "array",
+        "items":{"$ref":"#definitions/tag"}
+      },
+      "timestamp": {
+        "type": "string",
+        "example": 1526567775015
+      }
+      }
+    },
+    "tag":{
+      "properties": {
+        "tagName": {
+          "type": "string",
+          "example":"t1"
+        },
+        "value": {
+          "type": "integer",
+          "example":8
+        }
+      }
+    }
+  }
+}

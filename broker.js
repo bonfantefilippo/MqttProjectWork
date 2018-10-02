@@ -4,8 +4,13 @@ var SECURE_KEY = __dirname +'/key/ryans-key.pem';
 var SECURE_CERT = __dirname + '/key/ryans-cert.pem';
 
 var settings = {
-  port: 1883,
+ // port: 1883,
   protocol: "mqtts",
+  http: {
+    port: 1884,
+    bundle: true,
+    static: './'
+  },
   secure: {
     port: 8883,
     keyPath: SECURE_KEY,
@@ -30,14 +35,17 @@ server.on('clientConnected', function(client) {
 });
 
 server.on('clientDisconnected', function(client) {
-  console.log(`The client: ${client.id} has been disconnected.` );
+  console.log(`The client: ${client.clientId} has been disconnected.` );
   });
 
 
-
 server.on('subscribed', function(topic, client) {
-  console.log('The subscriber '+client.id+ ' has subscribed the topic ' + topic);
+  console.log('The subscriber '+ client.id + ' has subscribed the topic ' + topic);
  });
+ 
+ server.on('published', function(packet, client) {
+   console.log(`Ricevuto messaggio nel topic: ${packet.topic} `)
+ })
 
 
 function setup() {

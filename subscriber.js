@@ -34,14 +34,14 @@ client=mqtt.connect(connectionOptions);
 
 
 client.on("connect", () => {
+  client.subscribe("mytest/digit");
   client.subscribe("SYMulation/DataLogger/sensori");
   console.log('InfluxDB Subscriber connected to Broker and is waiting for a message...')
 });
 
 
 client.on("message", (packet, message) => {
-  console.log(packet)
-  console.log(JSON.parse(message));
+  console.log(JSON.parse(message))
   let obj = JSON.parse(message);
   let queueLength = obj.length;
 

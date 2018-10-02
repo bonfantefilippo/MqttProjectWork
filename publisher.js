@@ -31,9 +31,15 @@ const connectionOptions = {
 
 var client = mqtt.connect(connectionOptions)
 
-
+function sendNumber() {
+  var number = Math.round(Math.random() * 0xffffff);
+  client.publish("mytest/digit", number.toString());
+  setTimeout(sendNumber, 10000);
+}
 
 client.on("connect", function() {
+  sendNumber(); 
+ // client.publish("mytest/digit", sendNumber());
   app.post("/api/datalog", (req, res) => {
     console.log(req.body);
     client.publish("SYMulation/DataLogger/sensori", JSON.stringify(req.body)); //provare con QoS
@@ -41,6 +47,7 @@ client.on("connect", function() {
     res.sendStatus(204)
   });
 });
+
 
 
 app.listen(5001, () => console.log("In ascolto sulla porta 5001"));

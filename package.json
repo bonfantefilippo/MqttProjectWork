@@ -1,7 +1,7 @@
 {
   "name": "MQTTs project",
   "description": "MQTTs service",
-  "authors": "Filippo",
+  "authors": "Filippo Bonfante",
   "version": "1.0.0",
   "main": "pathToMain",
   "dependencies": {
@@ -12,8 +12,8 @@
     "influx": "^5.0.7",
     "mosca": "^2.8.1",
     "nodemon": "^1.17.4",
-    "tls": "0.0.1",
-    "swagger-ui-express": "^3.0.9"
+    "swagger-ui-express": "^3.0.9",
+    "tls": "0.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,14 +1,24 @@
 const mqtt = require("mqtt");
-var express = require("express");
+const express = require("express");
 const influx = require("influx");
+const cors = require("cors");
+let client;
 
-const connectionOptions= {
-  protocolId: 'MQTT',
+const connectionOptions = {
+  port: 8883,
+  protocol: "mqtts",
   protocolVersion: 4,
-  username: 'pippo',
-  password: 'secret',
-  clientId: 'pub_' + Math.random().toString(16).substr(2, 8)
-} 
+  username: "admin",
+  password: "secret",
+  rejectUnauthorized: false,
+ /* clientId:
+    "sub_" +
+    Math.random()
+      .toString(16)
+      .substr(2, 8)*/
+  clientId: "InfluxDB"
+};
+
 const influxconn = new influx.InfluxDB({
   host: "7tech.ddns.net",
   database: "prova",
@@ -17,20 +27,21 @@ const influxconn = new influx.InfluxDB({
   password: "user1"
 });
 
-const app = express();
 const utility = require("./api/utility");
-var client;
 
-client=mqtt.connect("mqtt://192.168.1.164");
+
+client=mqtt.connect(connectionOptions);
 
 
 client.on("connect", () => {
-  client.subscribe("sensori");
+  client.subscribe("mytest/digit");
+  client.subscribe("SYMulation/DataLogger/sensori");
+  console.log('InfluxDB Subscriber connected to Broker and is waiting for a message...')
 });
 
+
 client.on("message", (packet, message) => {
-  console.log(packet)
-  console.log(JSON.parse(message));
+  console.log(JSON.parse(message))
   let obj = JSON.parse(message);
   let queueLength = obj.length;
 
@@ -52,8 +63,3 @@ client.on("message", (packet, message) => {
       });
   }
 });
-
-// message is Buffer
-
-//console.log(message.toString())
-//client.end()

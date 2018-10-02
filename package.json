@@ -1,7 +1,7 @@
 {
-  "name": "Broker",
-  "description": "Prova Mosca Broker",
-  "authors": "Filippo",
+  "name": "MQTTs project",
+  "description": "MQTTs service",
+  "authors": "Filippo Bonfante",
   "version": "1.0.0",
   "main": "pathToMain",
   "dependencies": {
@@ -12,6 +12,7 @@
     "influx": "^5.0.7",
     "mosca": "^2.8.1",
     "nodemon": "^1.17.4",
+    "swagger-ui-express": "^3.0.9",
     "tls": "0.0.1"
   },
   "scripts": {

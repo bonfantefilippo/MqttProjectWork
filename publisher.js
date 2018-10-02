@@ -1,68 +1,53 @@
 const mqtt = require("mqtt");
 const express = require("express");
 const cors = require("cors");
-const tls = require("tls");
 const app = express();
 const bodyParser = require("body-parser");
-const fs = require("fs");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
-var client;
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(cors());
+app.use(bodyParser.json());
+var obj;
 
 const connectionOptions = {
-  protocolId: "MQTT",
+  port: 8883,
+  protocol: "mqtts", //not mqtt because using tls
   protocolVersion: 4,
-  username: "pippo",
+  username: "admin",
   password: "secret",
+  rejectUnauthorized: false,
   clientId:
+    "Sensori_Impianto"
+  /*clientId:
     "pub_" +
     Math.random()
       .toString(16)
-      .substr(2, 8)
+      .substr(2, 8)*/
 };
 
-var optionForTLS = {
-  host: "127.0.0.1",
-  port: 8443,
-  rejectUnauthorized: false
-};
 
-const optionsNodeSite = {
-  ca: [fs.readFileSync("../Broker_SYMulator/key/ryans-cert.pem")],
-  rejectUnauthorized: false
-};
 
-//const socket = tls.connect(1883, optionForTLS);
-/*const socket = tls.connect(8443, optionsNodeSite, () => {
-  console.log(
-    "client connected",
-    socket.authorized ? "authorized" : "unauthorized"
-  );
-  process.stdin.pipe(socket);
-  process.stdin.resume();
-});
-        socket.setEncoding("utf8");
-    socket.on("data", data => {
-        console.log(data);
-        });
-    socket.on("end", () => {
-  server.close();
-});*/
+var client = mqtt.connect(connectionOptions)
 
-client = mqtt.connect("mqtt://192.168.1.164", connectionOptions);
-//client = mqtt.connect("mqtt://192.168.1.164", socket);
-
-//mqtt.Client('a', options);
-
-app.use(cors());
-app.use(bodyParser.json());
+function sendNumber() {
+  var number = Math.round(Math.random() * 0xffffff);
+  client.publish("mytest/digit", number.toString());
+  setTimeout(sendNumber, 10000);
+}
 
 client.on("connect", function() {
+  sendNumber(); 
+ // client.publish("mytest/digit", sendNumber());
   app.post("/api/datalog", (req, res) => {
     console.log(req.body);
-    client.publish("sensori", JSON.stringify(req.body));
+    client.publish("SYMulation/DataLogger/sensori", JSON.stringify(req.body)); //provare con QoS
     console.log("Sensori inviato");
-    res.json({ result: "ok" });
+    res.sendStatus(204)
   });
 });
+
+
 
 app.listen(5001, () => console.log("In ascolto sulla porta 5001"));

@@ -39,6 +39,10 @@ client.on("connect", () => {
   console.log('InfluxDB Subscriber connected to Broker and is waiting for a message...')
 });
 
+client.on('packetreceive', (packet) => {
+  console.log("\x1b[37m",`Ricevuto messaggio nel topic ${JSON.stringify(packet.topic)}`);
+})
+
 
 client.on("message", (packet, message) => {
   console.log(JSON.parse(message))

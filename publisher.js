@@ -37,11 +37,12 @@ var client = mqtt.connect(connectionOptions);
 
 client.on("connect", () => {
   sendNumber();
+  console.log("Publsher connesso")
   // client.publish("mytest/digit", sendNumber());
-  app.post("/api/datalog", (req, res) => {
+  /*app.post("/api/datalog", (req, res) => {
     client.publish("SYMulation/DataLogger/sensori", JSON.stringify(req.body)); //provare con QoS
     res.sendStatus(204);
-  });
+  });*/
 });
 
 client.on('packetsend', (packet) => {

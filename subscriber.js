@@ -47,8 +47,8 @@ client.on('error', (packet) => {
   console.log("\x1b[31m",`Connessione rifituata; verifica credenziali.`);
 })
 
-client.on("message", (packet, message) => {
-  console.log(JSON.stringify(message));
+client.on("message", (topic, packet, message) => {
+ // console.log("Messaggio ricevuto");
   //console.log(JSON.parse(message))
   /*let obj = JSON.parse(message);
   let queueLength = obj.length;

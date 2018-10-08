@@ -6,7 +6,7 @@ module.exports = {
 
         for (let i = 0; i < fieldsLength; i++) {//ciclo tutte le misure
 
-            let value = '"' + measure.fields[i].fldname+'":' + measure.fields[i].value;//forma valore per formato JSON
+            let value = '"' + measure.fields[i].fldName+'":' + measure.fields[i].value;//forma valore per formato JSON
             result = result + value +",";//concatena tutti i fields della singola misura
         }
 

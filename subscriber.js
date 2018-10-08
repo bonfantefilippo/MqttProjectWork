@@ -34,7 +34,6 @@ client=mqtt.connect(connectionOptions);
 
 
 client.on("connect", () => {
-  client.subscribe("mytest/digit");
   client.subscribe("SYMulation/DataLogger/sensori");
   console.log('InfluxDB Subscriber connected to Broker and is waiting for a message...')
 });
@@ -43,14 +42,17 @@ client.on('packetreceive', (packet) => {
   if(packet.topic!==null)
   console.log("\x1b[37m",`Ricevuto messaggio nel topic ${JSON.stringify(packet.topic)}`);
 })
+
 client.on('error', (packet) => {
   console.log("\x1b[31m",`Connessione rifituata; verifica credenziali.`);
 })
 
 client.on("message", (topic, packet, message) => {
  // console.log("Messaggio ricevuto");
-  //console.log(JSON.parse(message))
-  /*let obj = JSON.parse(message);
+  //let obj = JSON.parse(message);
+  console.log(JSON.parse(message.payload))
+  
+  let obj = JSON.parse(message.payload);
   let queueLength = obj.length;
 
   for (let i = 0; i < queueLength; i++) {
@@ -58,7 +60,7 @@ client.on("message", (topic, packet, message) => {
     let timestamp = utility.getTimestamp(obj[i]);
     let arrayTags = utility.getTags(obj[i]);
     let arrayFields = utility.getFields(obj[i]);
-    
+    console.log(arrayFields)
     influxconn.writePoints([
       {
         measurement: myMeasurement,
@@ -69,5 +71,5 @@ client.on("message", (topic, packet, message) => {
       {
         precision: "ms"
       });
-  }*/
+  }
 });

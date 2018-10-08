@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 var obj;
 
 const connectionOptions = {
+  //hostname: '7technode.ddns.net',
   port: 8883,
   protocol: "mqtts", //not mqtt because using tls
   protocolVersion: 4,
@@ -37,7 +38,7 @@ var client = mqtt.connect(connectionOptions);
 
 client.on("connect", () => {
   sendNumber();
-  console.log("Publsher connesso")
+  console.log("Publisher connesso")
   // client.publish("mytest/digit", sendNumber());
   /*app.post("/api/datalog", (req, res) => {
     client.publish("SYMulation/DataLogger/sensori", JSON.stringify(req.body)); //provare con QoS

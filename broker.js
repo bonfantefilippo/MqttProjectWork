@@ -15,7 +15,7 @@ var settings = {
       port: 8883,
       credentials: { keyPath: SECURE_KEY, certPath: SECURE_CERT }
     },
-   // { type: "http", port: 3000, bundle: true },
+    { type: "http", port: 3000, bundle: true },
     {
       type: "https",
       port: 3001,
